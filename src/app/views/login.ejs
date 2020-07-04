@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolosys Configurator Login</title>
+
+    <link rel="stylesheet" href="/Libraries/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="/Libraries/bootstrap/css/bootstrap.css">
+    <script src="/Libraries/bootstrap/js/bootstrap.js"></script>
+    <script src="/Custom/js/login.js"></script>
+</head>
+
+<body>
+    <div class="container d-flex flex-column justify-content-center"
+        style="width: 98vw; height: 100vh; max-width: 768px; max-height: 100vh">
+        <div class="d-block text-center header">
+            <h2>
+                Geolosys Configurator Login
+            </h2>
+            <h4>
+                By: oitsjustjose (Jose)
+            </h4>
+        </div>
+        <form action="/login" method="POST">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Log In</button>
+        </form>
+    </div>
+
+
+    <div class="modal" tabindex="-1" id="notification">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
