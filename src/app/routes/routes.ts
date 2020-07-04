@@ -4,11 +4,9 @@ import * as Auth from './auth'
 
 export const init = (app: Application, passport: PassportStatic) => {
     app.get('/', async (req, res) => {
-        if (req.isAuthenticated() && req.user) {
-            res.render('home')
-        } else {
-            res.redirect('/login?origin=/')
-        }
+        res.render('home', {
+            user: req.isAuthenticated && req.user ? req.user : null
+        })
     })
 
     app.put('/', async (req, res) => {
