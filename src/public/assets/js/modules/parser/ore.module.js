@@ -45,7 +45,7 @@ export const read = async () => {
         <center>
             You can view your JSON at
             <br>
-            <a href="${location.origin}/configs/${newDoc._id}">${location.origin}/configs/${newDoc._id}</a>
+            <a href="${location.origin}/configs/${newDoc.shortid}">${location.origin}/configs/${newDoc.shortid}</a>
         </center>
     `);
 };

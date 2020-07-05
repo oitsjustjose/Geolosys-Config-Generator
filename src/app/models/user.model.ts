@@ -6,7 +6,7 @@ const UserSchema = new Schema({
     password: String,
     configs: [{
         name: String,
-        conf: Types.ObjectId,
+        conf: String
     }]
 })
 
@@ -26,7 +26,7 @@ UserSchema.methods.changePassword = function (password: string, newPassword: str
 
 interface INamedConfig {
     name: string,
-    conf: Types.ObjectId
+    conf: string
 }
 
 export type UserModel = Document & {
