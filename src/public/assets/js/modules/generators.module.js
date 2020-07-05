@@ -257,7 +257,7 @@ const makeOreForm = (formId, usingNewConfig) => {
     density.type = 'number';
     density.min = 0;
     density.max = 1;
-    density.step = '0.05';
+    density.step = '0.000000001';
     density.name = 'density';
     density.setAttribute('required', 'required');
     densityWrapper.appendChild(density);

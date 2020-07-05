@@ -15,18 +15,29 @@ const generateJSONListener = () => {
         btn.attributes.disabled = true;
 
         let ores = Array();
+        let err = false;
 
         oreCfg.querySelectorAll('form').forEach((form) => {
             const ore = parseForm(form);
 
             if (ore == -1) {
+                err = true;
                 return;
             } else {
                 ores.push(ore);
             }
         });
 
+        if (err) {
+            return;
+        }
+
         console.log(ores);
+        console.log(JSON.parse(
+            JSON.stringify({
+                "ores": ores
+            })
+        ));
 
         // TODO: save this to the database!!!! If there's no name, name it some random ID maybe? /shrug 
         btn.attributes.disabled = false;
@@ -43,17 +54,17 @@ const parseForm = (form) => {
 
     for (let [idx, inp] of allInputs.entries()) {
         let err = false;
-        if (inp.required && !inp.value) {
+        if (inp.required && !inp.value || (inp.type == 'number' && (parsed(inp.value) > parsed(inp.max) || parsed(inp.value) < parsed(inp.min)))) {
             err = true;
-            inp.classList.add('json-invalid');
+            inp.classList.add('is-invalid');
         } else {
-            if (inp.classList.contains('json-invalid')) {
-                inp.classList.remove('json-invalid');
+            if (inp.classList.contains('is-invalid')) {
+                inp.classList.remove('is-invalid');
             }
         }
 
         if (err) {
-            alert("There were errors in your form (see outlined in red). Your JSON will not be generated until you correct this.");
+            alert("There was an error in your form (see outlined in red). Your JSON will not be generated until you correct this.");
             return -1;
         }
 
@@ -86,17 +97,21 @@ const parseForm = (form) => {
         }
     }
 
-    console.log(ore);
+    // console.log(ore);
+    return ore;
 };
 
 const parsed = (any) => {
-    if (typeof any == 'string') {
-        return String(any);
-    } else if (typeof any == 'number') {
-        return Number(any);
+    if (!any) {
+        return;
     }
-    console.warn(`Value ${any} could not be parsed. 💩`);
-    return any;
+
+
+    if (isNaN(Number(any))) {
+        return String(any);
+    }
+
+    return Number(any);
 };
 
 const switch112Listener = () => {
