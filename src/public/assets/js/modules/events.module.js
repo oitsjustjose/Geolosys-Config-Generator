@@ -11,7 +11,7 @@ const generateJSONListener = () => {
     const oreCfg = document.getElementById('oreconfig');
     const stoneCfg = document.getElementById('stoneconfig');
 
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
         btn.attributes.disabled = true;
 
         let ores = Array();
@@ -32,16 +32,44 @@ const generateJSONListener = () => {
             return;
         }
 
-        console.log(ores);
-        console.log(JSON.parse(
+        const asJson = JSON.parse(
             JSON.stringify({
                 "ores": ores
             })
-        ));
+        );
 
-        // TODO: save this to the database!!!! If there's no name, name it some random ID maybe? /shrug 
+        console.log(asJson);
+
+        const resp = await fetch('/', {
+            method: 'PUT',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: '',
+                config: asJson,
+            })
+        });
+
+        const newDoc = await resp.json();
+        makeNotification('Config Upload Complete!', `
+                <center>
+                    You can view your JSON at
+                    <br>
+                    <a href="${location.origin}/configs/${newDoc._id}">${location.origin}/configs/${newDoc._id}</a>
+                </center>
+            `);
+
         btn.attributes.disabled = false;
     });
+};
+
+
+const makeNotification = (title, contents) => {
+    const modal = document.getElementById('notification');
+
+    modal.querySelector('.modal-title').innerHTML = title;
+    modal.querySelector('.modal-body').innerHTML = contents;
+
+    new bootstrap.Modal.getInstance(modal).show();
 };
 
 const parseForm = (form) => {
@@ -97,21 +125,17 @@ const parseForm = (form) => {
         }
     }
 
-    // console.log(ore);
     return ore;
 };
 
 const parsed = (any) => {
     if (!any) {
         return;
-    }
-
-
-    if (isNaN(Number(any))) {
+    } else if (isNaN(Number(any))) {
         return String(any);
+    } else {
+        return Number(any);
     }
-
-    return Number(any);
 };
 
 const switch112Listener = () => {
