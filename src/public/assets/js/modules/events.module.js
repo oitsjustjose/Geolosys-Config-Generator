@@ -1,3 +1,6 @@
+import * as OreParser from './parser/ore.module.js';
+import * as StoneParser from './parser/stone.module.js';
+
 export const preInit = () => {
     switch112Listener();
 };
@@ -8,134 +11,15 @@ export const init = () => {
 
 const generateJSONListener = () => {
     const btn = document.getElementById('generate-btn');
-    const oreCfg = document.getElementById('oreconfig');
-    const stoneCfg = document.getElementById('stoneconfig');
 
     btn.addEventListener('click', async () => {
         btn.attributes.disabled = true;
 
-        let ores = Array();
-        let err = false;
-
-        oreCfg.querySelectorAll('form').forEach((form) => {
-            const ore = parseForm(form);
-
-            if (ore == -1) {
-                err = true;
-                return;
-            } else {
-                ores.push(ore);
-            }
-        });
-
-        if (err) {
-            return;
-        }
-
-        const asJson = JSON.parse(
-            JSON.stringify({
-                "ores": ores
-            })
-        );
-
-        console.log(asJson);
-
-        const resp = await fetch('/', {
-            method: 'PUT',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: '',
-                config: asJson,
-            })
-        });
-
-        const newDoc = await resp.json();
-        makeNotification('Config Upload Complete!', `
-                <center>
-                    You can view your JSON at
-                    <br>
-                    <a href="${location.origin}/configs/${newDoc._id}">${location.origin}/configs/${newDoc._id}</a>
-                </center>
-            `);
+        await OreParser.read();
+        await StoneParser.read();
 
         btn.attributes.disabled = false;
     });
-};
-
-
-const makeNotification = (title, contents) => {
-    const modal = document.getElementById('notification');
-
-    modal.querySelector('.modal-title').innerHTML = title;
-    modal.querySelector('.modal-body').innerHTML = contents;
-
-    new bootstrap.Modal.getInstance(modal).show();
-};
-
-const parseForm = (form) => {
-    let ore = {
-        'blocks': Array(),
-        'samples': Array()
-    };
-
-    const allInputs = Array.from(form.querySelectorAll('input, select[name="type"]'));
-
-    for (let [idx, inp] of allInputs.entries()) {
-        let err = false;
-        if (inp.required && !inp.value || (inp.type == 'number' && (parsed(inp.value) > parsed(inp.max) || parsed(inp.value) < parsed(inp.min)))) {
-            err = true;
-            inp.classList.add('is-invalid');
-        } else {
-            if (inp.classList.contains('is-invalid')) {
-                inp.classList.remove('is-invalid');
-            }
-        }
-
-        if (err) {
-            alert("There was an error in your form (see outlined in red). Your JSON will not be generated until you correct this.");
-            return -1;
-        }
-
-        if (!inp.value) { /* Skip over *optional*, empty attrs */
-            continue;
-        }
-
-        if (inp.name.includes('weight-')) { /* Skip weight items because they're parsed using idx+1 */
-            continue;
-        }
-
-        if (inp.name.includes('block-ore-')) { /* Parse out ores */
-            ore.blocks.push(inp.value, parseInt(allInputs[idx + 1].value));
-        } else if (inp.name.includes('block-sample-')) { /* Parse out samples*/
-            ore.samples.push(inp.value, parseInt(allInputs[idx + 1].value));
-        } else if (inp.name.includes('-')) { /* parse out any JSONArray() objs */
-            const key = inp.name.substr(0, inp.name.indexOf('-'));
-
-            if (Object.keys(ore).includes(key)) {
-                ore[key].push(parsed(inp.value));
-            } else {
-                ore[key] = [parsed(inp.value)];
-            }
-        } else { /* parse anything else */
-            if (inp.type == 'checkbox') {
-                ore[inp.name] = inp.checked;
-            } else {
-                ore[inp.name] = parsed(inp.value);
-            }
-        }
-    }
-
-    return ore;
-};
-
-const parsed = (any) => {
-    if (!any) {
-        return;
-    } else if (isNaN(Number(any))) {
-        return String(any);
-    } else {
-        return Number(any);
-    }
 };
 
 const switch112Listener = () => {
