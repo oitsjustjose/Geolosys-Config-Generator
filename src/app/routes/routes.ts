@@ -14,8 +14,7 @@ export const init = (app: Application, passport: PassportStatic) => {
     app.put('/', async (req, res) => {
         try {
             const conf = new ConfigDB()
-            conf.json = req.body.config
-            conf.name = req.body.name
+            conf.json = req.body.json
             await conf.save()
 
             if (req.isAuthenticated() && req.user) {
