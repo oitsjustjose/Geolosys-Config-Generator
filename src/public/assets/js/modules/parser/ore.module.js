@@ -5,7 +5,7 @@ import { parsed, makeNotification } from '../util.module.js';
  * 
  * @returns {null}
  */
-export const read = async () => {
+export const read = () => {
     const oreCfg = document.getElementById('oreconfig');
 
     let ores = Array();
@@ -23,31 +23,10 @@ export const read = async () => {
     });
 
     if (err) {
-        return;
+        return -1;
     }
 
-    const asJson = JSON.parse(
-        JSON.stringify({
-            "ores": ores
-        })
-    );
-
-    const resp = await fetch('/', {
-        method: 'PUT',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            json: asJson,
-        })
-    });
-
-    const newDoc = await resp.json();
-    makeNotification('Config Upload Complete!', `
-        <center>
-            You can view your JSON at
-            <br>
-            <a href="${location.origin}/configs/${newDoc.shortid}">${location.origin}/configs/${newDoc.shortid}</a>
-        </center>
-    `);
+    return ores;
 };
 
 /**
@@ -78,7 +57,15 @@ const parse = (form) => {
         }
 
         if (err) {
-            alert("There was an error in your form (see outlined in red). Your JSON will not be generated until you correct this.");
+            makeNotification(
+                `One of Your Forms is Incomplete`,
+                `
+                There was an error in one of your Ore Configs that needs to be resolved (see in red).
+                <br>
+                <br>
+                Your config file will not be available until this issue is resolved.
+                `
+            );
             return -1;
         }
 

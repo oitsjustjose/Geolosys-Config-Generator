@@ -17,11 +17,13 @@
     <script type="module" src="/assets/js/modules/parser/ore.module.js"></script>
     <script type="module" src="/assets/js/modules/parser/stone.module.js"></script>
     <script type="module" src="/assets/js/modules/events.module.js"></script>
-    <script type="module" src="/assets/js/modules/generators.module.js"></script>
+    <script type="module" src="/assets/js/modules/renderer/components.module.js"></script>
+    <script type="module" src="/assets/js/modules/renderer/ore.module.js"></script>
+    <script type="module" src="/assets/js/modules/renderer/stone.module.js"></script>
     <script type="module" src="/assets/js/modules/init.module.js"></script>
 </head>
 
-<body>
+<body class="fade">
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark">
         <div class="container-fluid">
             <a href="/" class="navbar-brand">
@@ -89,7 +91,7 @@
         <div class="accordion mb-4" id="oreconfig">
         </div>
 
-        <h4>Stones - 🛠 WIP 😭</h4>
+        <h4>Stones</h4>
 
 
         <div class="accordion mb-4" id="stoneconfig">
@@ -121,9 +123,6 @@
                 </div>
                 <div class="modal-body">
                     <p></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

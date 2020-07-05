@@ -1,5 +1,6 @@
 import * as OreParser from './parser/ore.module.js';
 import * as StoneParser from './parser/stone.module.js';
+import { makeNotification } from './util.module.js';
 
 export const preInit = () => {
     switch112Listener();
@@ -15,10 +16,37 @@ const generateJSONListener = () => {
     btn.addEventListener('click', async () => {
         btn.attributes.disabled = true;
 
-        await OreParser.read();
-        await StoneParser.read();
+        const ores = OreParser.read();
+        const stones = StoneParser.read();
+
+        if (ores != -1 && stones != -1) {
+            const asJson = JSON.parse(
+                JSON.stringify({
+                    "ores": ores,
+                    "stones": stones
+                })
+            );
+
+            const resp = await fetch('/', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    json: asJson
+                })
+            });
+
+            const newDoc = await resp.json();
+            makeNotification('Config Upload Complete!', `
+                <center>
+                    You can view your JSON at
+                    <br>
+                    <a href="${location.origin}/configs/${newDoc.shortid}">${location.origin}/configs/${newDoc.shortid}</a>
+                </center>
+            `);
+        }
 
         btn.attributes.disabled = false;
+
     });
 };
 
