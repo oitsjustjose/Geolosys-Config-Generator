@@ -276,30 +276,67 @@ const makeOreForm = (formId, usingNewConfig) => {
     );
     form.appendChild(dimBlWrapper);
 
-    form.appendChild(makeHeader('Biomes To Spawn / Not Spawn'));
+    /* Dynamically show biome white/blacklist if a biome-selective type has been chosen */
+    const biomeHeader = makeHeader('Biomes To Spawn / Not Spawn');
+    biomeHeader.style.display = 'none';
+    form.appendChild(biomeHeader);
+
     const biomeWrapper = document.createElement('div');
     biomeWrapper.className = 'mb-3';
-    biomeWrapper.appendChild(
-        makeExpandableSet(
-            'biomes',
-            biomeWrapper,
-            'text',
-            'Format: &lt;modid:biome&gt; OR <a href="https://oitsjustjo.se/GelX-uC1s" target="_blank">Biome Type</a>'
-        )
-    );
     form.appendChild(biomeWrapper);
+
+    depositType.addEventListener('change', () => {
+        const type = depositType.value;
+
+        biomeWrapper.innerHTML = '';
+        /* Hide the label first */
+        biomeHeader.style.display = 'none';
+
+        if (type == 'depositBiomeMulti' || type == 'depositBiome') {
+            /* Reveal the header if applicable */
+            const biomeGroup = makeExpandableSet(
+                'biomes',
+                biomeWrapper,
+                'text',
+                'Format: &lt;modid:biome&gt; OR <a href="https://oitsjustjo.se/GelX-uC1s" target="_blank">Biome Type</a>'
+            );
+            const checkWrapper = document.createElement('div');
+            checkWrapper.className = 'input-group-text';
+
+            const checkLbl = document.createElement('label');
+            checkLbl.for = 'isWhitelist';
+            checkLbl.className = 'mr-2';
+            checkLbl.innerText = 'Whitelist?';
+
+            const checkInput = document.createElement('input');
+            checkInput.className = 'form-check-input';
+            checkInput.type = 'checkbox';
+            checkInput.name = 'isWhitelist';
+            checkInput.value = '';
+            checkInput.setAttribute('aria-label', 'Checkbox for Text Input:');
+            checkWrapper.appendChild(checkLbl);
+            checkWrapper.appendChild(checkInput);
+
+            biomeGroup.insertBefore(checkWrapper, biomeGroup.childNodes[biomeGroup.childNodes.length - 1]);
+
+            // biomeGroup.appendChild()
+            biomeHeader.style.display = 'block';
+            biomeWrapper.appendChild(biomeGroup);
+        }
+    });
 
     form.appendChild(makeHeader('Blocks This Deposit May Replace'));
     const replWrapper = document.createElement('div');
     replWrapper.className = 'mb-3';
     replWrapper.appendChild(
         makeExpandableSet(
-            'replacements',
+            'blockStateMatchers',
             replWrapper,
             'text',
             'Format: &lt;modid:block&gt; or &lt;modid:block:meta&gt;'
         )
     );
+    replWrapper.querySelector('input').removeAttribute('required');
     form.appendChild(replWrapper);
 
     return form;
@@ -383,7 +420,7 @@ const makeExpandableSet = (prefix, container, type, tooltip) => {
     if (tooltip) {
         input.setAttribute('data-toggle', 'tooltip');
         input.setAttribute('data-placement', 'top');
-            input.setAttribute('data-html', 'true');
+        input.setAttribute('data-html', 'true');
         input.setAttribute('title', tooltip);
         input.setAttribute('required', 'required');
         new bootstrap.Tooltip(input, {});
