@@ -5,8 +5,7 @@ const UserSchema = new Schema({
     username: String,
     password: String,
     configs: [{
-        name: String,
-        conf: String
+        type: String
     }]
 })
 
@@ -24,15 +23,10 @@ UserSchema.methods.changePassword = function (password: string, newPassword: str
     }
 }
 
-interface INamedConfig {
-    name: string,
-    conf: string
-}
-
 export type UserModel = Document & {
     username: string,
     password: string,
-    configs: Array<INamedConfig>,
+    configs: Array<String>,
     generateHash: Function,
     validPassword: Function,
     changePassword: Function

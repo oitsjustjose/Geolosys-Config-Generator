@@ -19,16 +19,34 @@ export const init = (app: Application, passport: PassportStatic) => {
             await conf.save()
 
             if (req.isAuthenticated() && req.user) {
-                req.user.configs.push({
-                    name: req.body.name,
-                    conf: conf.shortid
-                })
+                req.user.configs.push(
+                    conf.shortid
+                )
+                await req.user.save()
             }
             res.status(200).send(conf)
         } catch (ex) {
             res.status(500).send({
                 error: ex
             })
+        }
+    })
+
+    app.get('/configs', async (req, res) => {
+        if (req.isAuthenticated() && req.user) {
+            res.render('configs', {
+                user: req.user
+            })
+        } else {
+            res.redirect('/login?origin=/configs')
+        }
+    })
+
+    app.post('/configs', async (req, res) => {
+        if (req.isAuthenticated() && req.user) {
+            res.json(req.user.configs)
+        } else {
+            res.json([])
         }
     })
 

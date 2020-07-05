@@ -30,8 +30,14 @@ export const init = (app: Application, passport: PassportStatic) => {
         }
     })
 
+    app.get('/register', async (req, res) => {
+        res.render('register')
+    })
+
     app.post('/register', async (req, res) => {
-        const exUser = await UserDB.findOne({ 'email': req.body.email })
+        const exUser = await UserDB.findOne({
+            'username': req.body.username
+        })
         if (exUser) {
             res.redirect('/register?exists')
         } else {
@@ -40,6 +46,10 @@ export const init = (app: Application, passport: PassportStatic) => {
             user.password = user.generateHash(req.body.password)
             user.configs = Array()
             await user.save()
+
+            req.logIn(user, () => {
+                res.redirect('/')
+            })
         }
     })
 }

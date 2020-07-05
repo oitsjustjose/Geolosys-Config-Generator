@@ -13,14 +13,7 @@
     <link rel="stylesheet" href="/assets/css/base.css">
 
     <script src="/Libraries/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="/assets/js/modules/util.module.js"></script>
-    <script type="module" src="/assets/js/modules/parser/ore.module.js"></script>
-    <script type="module" src="/assets/js/modules/parser/stone.module.js"></script>
-    <script type="module" src="/assets/js/modules/events.module.js"></script>
-    <script type="module" src="/assets/js/modules/renderer/components.module.js"></script>
-    <script type="module" src="/assets/js/modules/renderer/ore.module.js"></script>
-    <script type="module" src="/assets/js/modules/renderer/stone.module.js"></script>
-    <script type="module" src="/assets/js/modules/init.module.js"></script>
+    <script src="/assets/js/configs.js"></script>
 </head>
 
 <body class="fade">
@@ -39,7 +32,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="/" class="nav-link active">
+                        <a href="/" class="nav-link">
                             <span>
                                 <i class="far fa-plus-square"></i>&nbsp; Create
                             </span>
@@ -47,7 +40,7 @@
                     </li>
                     <% if(user) {%>
                     <li class="nav-item">
-                        <a href="/configs" class="nav-link">
+                        <a href="/configs" class="nav-link active">
                             <span>
                                 <b>{ }</b>&nbsp; Your Configs
                             </span>
@@ -69,12 +62,6 @@
                         </a>
                         <% } %>
                     </li>
-                    <li class="nav-item">
-                        <div class="form-check form-switch align-bottom mt-2">
-                            <input class="form-check-input" type="checkbox" id="switch-112-mode">
-                            <label class="form-check-label text-white" for="switch-112-mode">Using MC 1.14+</label>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -82,22 +69,21 @@
 
     <div class="text-center d-block">
         <img class="header" src="/assets/img/logo.png">
-        <h4>Geolosys Deposit Configurator</h4>
+        <h4>Your Geolosys Configs</h4>
     </div>
 
     <div class="container">
-        <h4>Ores</h4>
-        <div class="accordion mb-4" id="oreconfig">
-        </div>
-
-        <h4>Stones</h4>
-        <div class="accordion mb-4" id="stoneconfig">
-        </div>
+        <table class="table m-auto" style="width: 90vw; max-width: 512px;">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Config</th>
+                </tr>
+            </thead>
+            <tbody id="config-body">
+            </tbody>
+        </table>
     </div>
-
-    <button class="btn btn-primary m-auto mb-3 d-block" id="generate-btn">
-        Generate
-    </button>
 
     <nav class="navbar fixed-bottom navbar-light bg-light">
         <h6 class="text-center w-100">
@@ -109,27 +95,6 @@
             <a href="https://github.com/oitsjustjose/geolosys-config-generator" target="_blank">GitHub</a>
         </div>
     </nav>
-
-
-    <div class="modal fade" tabindex="-1" id="notification">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        new bootstrap.Modal(document.getElementById('notification'));
-    </script>
 </body>
 
 </html>

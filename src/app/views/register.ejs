@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/assets/css/base.css">
 
     <script src="/Libraries/bootstrap/js/bootstrap.js"></script>
-    <script src="/assets/js/login.js"></script>
+    <script src="/assets/js/register.js"></script>
 </head>
 
 <body>
@@ -39,9 +39,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/register" class="nav-link">
+                        <a href="/login" class="nav-link">
                             <span>
-                                <i class="fas fa-user-plus"></i>&nbsp; Register
+                                <i class="fas fa-sign-in-alt"></i>&nbsp; Log In
                             </span>
                         </a>
                     </li>
@@ -50,23 +50,40 @@
         </div>
     </nav>
 
-    <div class="container d-flex flex-column justify-content-center"
+    <div class="container d-flex flex-column justify-content-center last"
         style="width: 98vw; height: 90vh; max-width: 768px; max-height: 90vh">
         <div class="d-block text-center header">
             <h2>
-                Geolosys Configurator Login
+                Geolosys Configurator Account Registration
             </h2>
         </div>
-        <form action="/login" method="POST">
+        <form action="/register" method="POST">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" name="username" id="username">
+                <input type="text" class="form-control" name="username" id="username" oninput="checkUsername(this)"
+                    required>
+                <div class="invalid-feedback">
+                    Password Must Be At Least 6 Characters
+                </div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" id="password">
+                <input type="password" class="form-control" name="password" id="password" oninput="checkPass(this)"
+                    required>
+                <div class="invalid-feedback">
+                    Password Must Be At Least 8 Characters
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Log In</button>
+            <div class="mb-3">
+                <label for="password" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" name="password-conf" id="password-conf"
+                    oninput="checkPassConf(this)" required>
+                <div class="invalid-feedback">
+                    Passwords Must Match
+                </div>
+            </div>
+            <button id="register-btn" type="submit" class="btn btn-primary"
+                onclick="location.href = '/register'">Register</button>
         </form>
     </div>
 

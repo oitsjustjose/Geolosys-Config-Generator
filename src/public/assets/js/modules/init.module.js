@@ -7,5 +7,9 @@ window.addEventListener('load', () => {
     OreFormRenderer.init();
     StoneFormRenderer.init();
     events.init();
+
+    /* Give the body enough space for a bottom navbar */
+    document.body.style.paddingBottom = `${document.querySelector('.navbar.fixed-bottom').clientHeight}px`;
+
     document.body.classList.add('show');
 });
