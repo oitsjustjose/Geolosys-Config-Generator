@@ -21,7 +21,7 @@ declare global {
 const app = express()
 
 app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, './app/Views'))
+app.set('views', path.join(__dirname, './app/views'))
 
 app.use(express.static(__dirname + '/public'))
 app.use(bpjson())
