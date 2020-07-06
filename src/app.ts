@@ -20,6 +20,8 @@ declare global {
 
 const app = express()
 
+app.set('json spaces', 2)
+
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, './app/views'))
 
