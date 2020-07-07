@@ -71,27 +71,35 @@ const switch112Listener = () => {
 
 export const initYListeners = (yMinEl, yMaxEl) => {
     yMinEl.addEventListener('change', () => {
-        if (yMinEl.value < 0) {
+        const val = parseInt(yMinEl.value);
+
+        if (val < 0) {
             yMinEl.value = 0;
-        } else if (yMinEl.value > 255) {
+        } else if (val > 255) {
             yMinEl.value = 255;
         }
 
-        if (yMinEl.value >= yMaxEl.value) {
+        if (val >= parseInt(yMaxEl.value)) {
             yMinEl.value = (parseInt(yMaxEl.value) - 1);
+
+            if (parseInt(yMinEl.value) < 0) {
+                yMinEl.value = 0;
+            }
         }
     });
 
     yMaxEl.addEventListener('change', () => {
-        if (yMaxEl.value < 0) {
+        const val = parseInt(yMaxEl.value);
+
+        if (val < 0) {
             yMaxEl.value = 0;
-        } else if (yMaxEl.value > 255) {
+        } else if (val > 255) {
             yMaxEl.value = 255;
         }
 
-        if (yMaxEl.value <= yMinEl.value) {
+        if (val <= parseInt(yMinEl.value)) {
             yMaxEl.value = (parseInt(yMinEl.value) + 1);
-            if (yMaxEl.value > 255) {
+            if (parseInt(yMaxEl.value) > 255) {
                 yMinEl.value = (parseInt(yMaxEl.value) - 1);
             }
         }
