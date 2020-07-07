@@ -110,10 +110,10 @@ const makeForm = (usingNewConfig) => {
         sampleWrapper.innerHTML = '';
 
         if (type == 'deposit' || type == 'depositBiome') {
-            const newInput = components.makePair('ore', true, sampleWrapper);
+            const newInput = components.makePair('sample', true, sampleWrapper);
             sampleWrapper.appendChild(newInput);
         } else if (type == 'depositMulti' || type == 'depositBiomeMulti') {
-            const newInput = components.makePair('ore', false, sampleWrapper);
+            const newInput = components.makePair('sample', false, sampleWrapper);
             sampleWrapper.appendChild(newInput);
         } else {
             alert(`Invalid type: ${type}`);
