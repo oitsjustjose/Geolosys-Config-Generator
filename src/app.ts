@@ -34,13 +34,13 @@ app.use(session({
     secret: '16ed0626a1d2b5-kc6zy6e8',
 }))
 
-mongoose.connect(`mongodb://${process.env.MONGO_URL}/GeolosysConfigGen`, {
+mongoose.connect(`mongodb://${process.env.MONGO_URI}/GeolosysConfigGen`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
-    console.log('DB Connected! 😄')
+    console.log('DB Connected')
 }).catch((ex) => {
-    console.log('DB Connection Failed 💩')
+    console.log('DB Connection Failed')
     console.error(ex)
     process.exit(1)
 })
@@ -78,7 +78,7 @@ if (app.get('env') == 'production') {
     Logging.init(`${__dirname}/..`)
 }
 
-const port = process.env.PORT || 3035
+const port = process.env.PORT
 
 app.listen(port, () => {
     process.stdout.write(`Listening on port ${port}\n`)
