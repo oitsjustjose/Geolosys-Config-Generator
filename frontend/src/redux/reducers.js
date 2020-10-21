@@ -28,6 +28,11 @@ export default function reducer(
         ...state,
         mc114: !state.mc114,
       };
+    case 'SET_CONFIGS':
+      return {
+        ...state,
+        configs: action.configs,
+      };
     default:
       return state;
   }

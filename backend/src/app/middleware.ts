@@ -3,6 +3,29 @@ import * as jwt from 'jsonwebtoken'
 import UserSchema from './db/user.schema'
 import moment from 'moment'
 
+export const optAuth = async (req: Request, res: Response, next: NextFunction) => {
+    const token = req.header('auth-token')
+
+    if (!token) {
+        return next()
+    }
+
+    try {
+        const { _id, expiresAt } = (jwt.verify(token, process.env.JWT_SECRET as string) as { _id: string, expiresAt: string })
+
+        if (moment(moment()).isAfter(expiresAt)) {
+            return next()
+        }
+
+        const user = await UserSchema.findById(_id)
+        req.user = user || null
+
+        return next()
+    } catch (err) {
+        return res.status(400).send(`Invalid Token: ${err}`)
+    }
+}
+
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.header('auth-token')
 

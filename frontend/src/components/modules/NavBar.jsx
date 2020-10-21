@@ -28,7 +28,7 @@ const NavBarComponent = ({
         <NavLinkItem name="Create" dest="/" icon={faPlusSquare} />
 
         {store.getState().isAuthenticated && (
-          <NavLinkItem name="Your Configs" dest="/configs" icon={faCode} />
+          <NavLinkItem name="Your Configs" dest="/browse" icon={faCode} />
         )}
 
         {store.getState().isAuthenticated && (

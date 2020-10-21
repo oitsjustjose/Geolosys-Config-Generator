@@ -6,7 +6,7 @@ import { registerPostHandler } from './app/controllers/registerPostHandler'
 import { configGetHandler, configGetSpecificHandler } from './app/controllers/configGetHandler'
 import { configPutHandler } from './app/controllers/configPutHandler'
 import { UserModel } from './app/db/user.schema'
-import { auth } from './app/middleware'
+import { auth, optAuth } from './app/middleware'
 
 interface AuthReq {
     user: UserModel | null
@@ -26,8 +26,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
+app.put('/api/configs', optAuth, configPutHandler)
 app.get('/api/configs', auth, configGetHandler)
-app.put('/api/configs', auth, configPutHandler)
 app.get('/api/configs/:id', configGetSpecificHandler)
 app.post('/api/users/login', loginPostHandler)
 app.post('/api/users/register', registerPostHandler)

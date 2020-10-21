@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import LoadAuth from './auth/load';
 import NavBar from './components/modules/NavBar';
+import ConfigBrowse from './components/view/ConfigBrowse';
 import ConfigCreate from './components/view/ConfigCreate';
 import Login from './components/view/Login';
 import Register from './components/view/Register';
@@ -20,6 +21,7 @@ export default () => {
         <div style={{ paddingTop: `${3.5}em` }} />
         <Route exact path="/" component={ConfigCreate} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/browse" component={ConfigBrowse} />
         <Route exact path="/register" component={Register} />
       </Router>
     </Provider>,

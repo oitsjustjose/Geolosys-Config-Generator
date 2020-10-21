@@ -19,7 +19,6 @@ export default ({
   });
 
   const setStateWithPropogation = (newState) => {
-    console.log(newState);
     setState(newState);
     onConfigChange(idx, newState);
   };
