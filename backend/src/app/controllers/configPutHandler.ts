@@ -10,7 +10,7 @@ export const configPutHandler = async (req: Request, res: Response) => {
         req.user?.configs.push(config._id)
         await req.user.save()
 
-        return res.status(200).send(config)
+        return res.status(200).json(config.json)
     } catch (ex) {
         console.error(ex)
         return res.status(500).send({ error: ex })

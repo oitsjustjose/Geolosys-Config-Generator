@@ -1,0 +1,40 @@
+.perfect-width {
+    max-width: 384px;
+    width: 85%;
+}
+
+.v-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 3.5em);
+}
+
+.nav-link, .nav-sign-out {
+    transition: color ease-in-out 150ms;
+}
+
+.nav-sign-out:hover {
+    color: #dc3545 !important;
+}
+
+.react-router-appear {
+    opacity: 0;
+    transition: opacity ease-in-out 300ms;
+}
+
+.react-router-appear-done {
+    opacity: 1;
+    transition: opacity ease-in-out 300ms;
+}
+
+img.header {
+    width: 98vw;
+    max-width: 128px;
+}
+
+.switch-nav-item, .switch-nav-item * {
+    cursor: pointer !important;
+    color: #fff;
+}

@@ -5,5 +5,5 @@ export default () => {
   localStorage.removeItem('auth-token');
   setAuthToken(null);
   store.dispatch({ type: 'CLEAR_USER' });
-  window.location.reload();
+  window.location.href = '/';
 };

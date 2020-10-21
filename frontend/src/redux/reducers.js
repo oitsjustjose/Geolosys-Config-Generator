@@ -1,36 +1,34 @@
 const defaultState = {
-    isAuthenticated: false,
-    user: null,
-    posts: null,
-    editingPost: null,
-  //   editingPost: {
-  //     id: null,
-  //     title: null,
-  //     contents: null,
-  //   },
-  };
-  
-  export default function reducer(
-    state = defaultState,
-    action,
-  ) {
-    switch (action.type) {
-      case 'SET_USER':
-        return {
-          ...state,
-          user: {
-            ...action.user,
-          },
-          isAuthenticated: true,
-        };
-      case 'CLEAR_USER':
-        return {
-          ...state,
-          user: null,
-          isAuthenticated: false,
-        };
-      default:
-        return state;
-    }
+  isAuthenticated: false,
+  user: null,
+  mc114: true,
+};
+
+export default function reducer(
+  state = defaultState,
+  action,
+) {
+  switch (action.type) {
+    case 'SET_USER':
+      return {
+        ...state,
+        user: {
+          ...action.user,
+        },
+        isAuthenticated: true,
+      };
+    case 'CLEAR_USER':
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+      };
+    case 'TOGGLE_MC_VER':
+      return {
+        ...state,
+        mc114: !state.mc114,
+      };
+    default:
+      return state;
   }
-  
+}

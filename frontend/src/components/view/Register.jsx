@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { CSSTransition } from 'react-transition-group';
-import { NavLink } from 'react-router-dom';
-import postLogin from '../../axios/Login';
+import postRegister from '../../axios/Register';
 import Notification from '../modules/Notification';
 
 const LoginComponent = ({
@@ -14,6 +13,8 @@ const LoginComponent = ({
   const [state, setState] = useState({
     username: null,
     password: null,
+    passwordConf: null,
+    usernameDup: false,
   });
 
   const [error, setError] = useState(null);
@@ -27,21 +28,28 @@ const LoginComponent = ({
   const submit = (evt) => {
     evt.preventDefault();
 
-    postLogin(state).catch((ex) => {
-      setError(`${ex.response.data}`);
-    });
+    if (state.password === state.passwordConf) {
+      const { username, password } = state;
+
+      postRegister({ username, password }).catch((ex) => {
+        if (ex.response && ex.response.data === 'USERNAME ALREADY EXISTS') {
+          setState({ ...state, usernameDup: true });
+        } else {
+          setError(`${ex.response.data}`);
+        }
+      });
+    }
   };
 
   return (
     <CSSTransition classNames="react-router" appear in timeout={300}>
       <div>
         <div className="v-center">
-          <Container
-            className="mx-auto perfect-width"
-          >
+          <Container className="mx-auto perfect-width">
             <h2 className="text-center">
-              User Login
+              New User Registration
             </h2>
+
             <Form onSubmit={submit}>
               <Form.Group>
                 <Form.Label>
@@ -52,7 +60,11 @@ const LoginComponent = ({
                   type="text"
                   onChange={(evt) => { setState({ ...state, username: evt.target.value }); }}
                 />
+                {state.usernameDup && (
+                <Form.Text className="text-danger">Username Already Exists</Form.Text>
+                )}
               </Form.Group>
+
               <Form.Group>
                 <Form.Label>
                   Password
@@ -64,24 +76,30 @@ const LoginComponent = ({
                 />
               </Form.Group>
 
-              <div className="d-flex" style={{ justifyContent: 'space-between' }}>
-                <NavLink to="/register">
-                  <Button variant="secondary">
-                    Register
-                  </Button>
-                </NavLink>
+              <Form.Group>
+                <Form.Label>
+                  (Confirm)
+                </Form.Label>
+                <Form.Control
+                  required
+                  type="password"
+                  onChange={(evt) => { setState({ ...state, passwordConf: evt.target.value }); }}
+                />
+                {state.password !== state.passwordConf && (
+                <Form.Text className="text-danger">Passwords Do Not Match</Form.Text>
+                )}
+              </Form.Group>
 
-                <Button type="submit">
-                  <FontAwesomeIcon icon={faSignInAlt} />
-                  {' '}
-                  Log In
-                </Button>
-              </div>
+              <Button type="submit" disabled={!(!!state.username && !!state.password && state.password === state.passwordConf)}>
+                <FontAwesomeIcon icon={faSignInAlt} />
+                {' '}
+                Register
+              </Button>
             </Form>
           </Container>
         </div>
         <Notification
-          title="Failed to Log In"
+          title="Failed to Register"
           contents={error}
           show={!!error}
           onHide={() => setError(null)}
