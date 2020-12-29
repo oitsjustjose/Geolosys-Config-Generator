@@ -1,10 +1,11 @@
 import * as bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
+import { configGetHandler, configGetSpecificHandler } from './app/controllers/configGetHandler'
+import { configPatchHandler } from './app/controllers/configPatchHandler'
+import { configPutHandler } from './app/controllers/configPutHandler'
 import { loginPostHandler } from './app/controllers/loginPostHandler'
 import { registerPostHandler } from './app/controllers/registerPostHandler'
-import { configGetHandler, configGetSpecificHandler } from './app/controllers/configGetHandler'
-import { configPutHandler } from './app/controllers/configPutHandler'
 import { UserModel } from './app/db/user.schema'
 import { auth, optAuth } from './app/middleware'
 
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({
 
 app.put('/api/configs', optAuth, configPutHandler)
 app.get('/api/configs', auth, configGetHandler)
+app.patch('/api/configs/:id', auth, configPatchHandler)
 app.get('/api/configs/:id', configGetSpecificHandler)
 app.post('/api/users/login', loginPostHandler)
 app.post('/api/users/register', registerPostHandler)

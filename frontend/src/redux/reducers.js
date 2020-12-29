@@ -2,6 +2,7 @@ const defaultState = {
   isAuthenticated: false,
   user: null,
   mc114: true,
+  editing: null,
 };
 
 export default function reducer(
@@ -32,6 +33,15 @@ export default function reducer(
       return {
         ...state,
         configs: action.configs,
+      };
+    case 'SET_CONFIG_EDITING':
+      return {
+        ...state,
+        editing: {
+          id: action.id,
+          json: action.json,
+          name: action.name,
+        },
       };
     default:
       return state;

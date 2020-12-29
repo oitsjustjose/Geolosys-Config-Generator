@@ -40,13 +40,17 @@ const ConfigViewComponent = ({
               <tr>
                 <th>#</th>
                 <th>URL</th>
+                <th>&nbsp;</th>
               </tr>
             </thead>
             <tbody>
-              {configs.map((slug, idx) => (
+              {configs.map(({ _id: slug, name }, idx) => (
                 <tr>
                   <td>{idx + 1}</td>
-                  <td><a href={`/?id=${slug}`}>{slug}</a></td>
+                  <td><a href={`/view?id=${slug}`}>{name}</a></td>
+                  <td>
+                    <a href={`/edit?id=${slug}`} className="btn btn-success">Edit</a>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -7,9 +7,9 @@ import {
 import ExtendableInput from '../modules/Config/ExtendableInput';
 
 export default ({
-  mc114, idx, onEntryCreation, onEntryDeletion, onConfigChange,
+  mc114, idx, onEntryCreation, onEntryDeletion, onConfigChange, prefill,
 }) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState(prefill || {
     block: '',
     maxY: 1,
     minY: 0,

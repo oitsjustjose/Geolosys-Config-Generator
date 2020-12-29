@@ -6,10 +6,10 @@ import {
 } from 'react-bootstrap';
 
 export default ({
-  prefix, singular, onChangeSuper,
+  prefix, singular, onChangeSuper, prefill,
 }) => {
-  const [entries, setEntries] = useState([true]);
-  const [state, setState] = useState([{
+  const [entries, setEntries] = useState(prefill || [true]);
+  const [state, setState] = useState(prefill || [{
     ore: '',
     chance: 100,
   }]);

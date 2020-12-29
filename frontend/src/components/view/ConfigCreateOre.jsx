@@ -9,9 +9,9 @@ import ExtendableInput from '../modules/Config/ExtendableInput';
 import ExtendableBiomeInput from '../modules/Config/ExtendableBiomeInput';
 
 export default ({
-  mc114, idx, onEntryCreation, onEntryDeletion, onConfigChange,
+  mc114, idx, onEntryCreation, onEntryDeletion, onConfigChange, prefill,
 }) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState(prefill || {
     name: '',
     depType: 'deposit',
     type: 'dense',
@@ -27,16 +27,8 @@ export default ({
   });
 
   const setStateWithPropogation = (newState) => {
-    const formatted = { ...newState };
-    if (formatted.oreBlocks) {
-      formatted.oreBlocks = formatted.oreBlocks.map((x) => [x.ore, x.chance]).flat();
-    }
-    if (formatted.sampleBlocks) {
-      formatted.sampleBlocks = formatted.sampleBlocks.map((x) => [x.ore, x.chance]).flat();
-    }
-    delete formatted.depType;
     setState(newState);
-    onConfigChange(idx, formatted);
+    onConfigChange(idx, newState);
   };
 
   return (
@@ -125,6 +117,7 @@ export default ({
               <WeightedTextEntry
                 singular={!state.depType.toLowerCase().includes('multi')}
                 prefix="ore"
+                prefill={prefill && prefill.oreBlocks}
                 onChangeSuper={(oreBlocks) => {
                   setStateWithPropogation({ ...state, oreBlocks });
                 }}
@@ -139,6 +132,7 @@ export default ({
               <WeightedTextEntry
                 singular={!state.depType.toLowerCase().includes('multi')}
                 prefix="sample"
+                prefill={prefill && prefill.sampleBlocks}
                 onChangeSuper={(sampleBlocks) => {
                   setStateWithPropogation({ ...state, sampleBlocks });
                 }}

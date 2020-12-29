@@ -3,7 +3,14 @@ import ConfigSchema from '../db/config.schema'
 
 export const configGetHandler = async (req: Request, res: Response) => {
     try {
-        return res.json(req.user?.configs)
+        const configs = []
+
+        for (const _id of req.user?.configs) {
+            const { name } = await ConfigSchema.findById(_id)
+            configs.push({ _id, name })
+        }
+
+        return res.json(configs)
     } catch (ex) {
         console.error(ex)
         return res.status(500).send({ error: ex })

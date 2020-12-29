@@ -6,11 +6,16 @@ const ConfigSchema = new Schema({
         type: String,
         default: shortid.generate
     },
-    json: Object
+    name: {
+        type: String,
+        default: "Unnamed"
+    },
+    json: Object,
 })
 
 export type ConfigModel = Document & {
     _id: string,
+    name: string,
     json: object,
 }
 
