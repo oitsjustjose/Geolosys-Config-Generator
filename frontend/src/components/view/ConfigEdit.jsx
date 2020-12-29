@@ -4,37 +4,51 @@ import {
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import PutConfig from '../../axios/Config/PutConfig';
+import { GetConfigForEdit } from '../../axios/Config/GetConfig';
+import PatchConfig from '../../axios/Config/PatchConfig';
 import ConfigCreateOre from './ConfigCreateOre';
 import ConfigCreateStone from './ConfigCreateStone';
 
 const Configurator = ({
-  mc114,
+  mc114, prefill,
 }) => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState('Unnamed');
+
+  const [oreState, setOreState] = useState(null);
   const [oreConfigs, setOreConfigs] = useState([true]);
+
+  const [stoneState, setStoneState] = useState(null);
   const [stoneConfigs, setStoneConfigs] = useState([true]);
-  const [oreState, setOreState] = useState([{
-    name: '',
-    type: 'dense',
-    oreBlocks: null,
-    sampleBlocks: null,
-    maxY: 1,
-    minY: 0,
-    chance: 0,
-    size: 1,
-    density: 1,
-    dimBlacklist: [],
-    blockStateMatchers: [],
-  }]);
-  const [stoneState, setStoneState] = useState([{
-    block: '',
-    maxY: -1,
-    minY: -1,
-    chance: -1,
-    size: -1,
-    dimBlacklist: [],
-  }]);
+
+  if (!prefill) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('id')) {
+      GetConfigForEdit(params.get('id')).then((x) => {
+        x.name && setName(x.name);
+        setOreState(x.json.ores);
+        setOreConfigs(Array(x.json.ores.length).fill(true));
+        setStoneState(x.json.stones);
+        setStoneConfigs(Array(x.json.stones.length).fill(true));
+      });
+
+      return (
+        <CSSTransition classNames="react-router" appear in timeout={300}>
+          <div className="v-center"><h1>Loading...</h1></div>
+        </CSSTransition>
+      );
+    }
+    return (
+      <CSSTransition classNames="react-router" appear in timeout={300}>
+        <div className="v-center text-danger">
+          <h3>
+            Missing Query Param
+            {' '}
+            <code>id</code>
+          </h3>
+        </div>
+      </CSSTransition>
+    );
+  }
 
   const addOreEntry = () => {
     setOreConfigs([...oreConfigs, true]);
@@ -50,6 +64,13 @@ const Configurator = ({
     const newState = [...oreState];
     newState[idx] = oreConfigState;
     setOreState(newState);
+  };
+
+  const onSubmit = () => {
+    const body = { name, json: { ores: oreState, stones: stoneState } };
+    PatchConfig(prefill.id, body).then((data) => {
+      window.location.href = `/view?id=${data}`;
+    });
   };
 
   const addStoneEntry = () => {
@@ -96,6 +117,7 @@ const Configurator = ({
                 onEntryCreation={addOreEntry}
                 onEntryDeletion={removeOreEntry}
                 onConfigChange={onOreConfigChange}
+                prefill={prefill.json.ores[idx]}
                 idx={idx}
               />
             ))}
@@ -104,6 +126,7 @@ const Configurator = ({
 
         <Container>
           <h4 className="mt-3">Stones</h4>
+          {' '}
           <Accordion defaultActiveKey="0">
             {stoneConfigs.map((enabled, idx) => enabled && (
               <ConfigCreateStone
@@ -111,6 +134,7 @@ const Configurator = ({
                 onEntryCreation={addStoneEntry}
                 onEntryDeletion={removeStoneEntry}
                 onConfigChange={onStoneConfigChange}
+                prefill={prefill && prefill.json.stones[idx]}
                 idx={idx}
               />
             ))}
@@ -118,18 +142,11 @@ const Configurator = ({
         </Container>
 
         <Button
-          onClick={() => PutConfig({
-            name,
-            json: {
-              ores: oreState,
-              stones: stoneState,
-            },
-          }).then((data) => {
-            window.location.href = `/view?id=${data}`;
-          })}
+          onClick={onSubmit}
+          variant="danger"
           className="d-block mx-auto my-4"
         >
-          Generate!
+          Save (Overwrites)
         </Button>
       </div>
     </CSSTransition>
@@ -138,6 +155,7 @@ const Configurator = ({
 
 const mapStateToProps = (state) => ({
   mc114: state.mc114,
+  prefill: state.editing,
 });
 
 export default connect(mapStateToProps)(Configurator);

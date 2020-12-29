@@ -59,6 +59,7 @@ export default ({
               </Form.Label>
               <Form.Control
                 type="text"
+                value={state.name}
                 onChange={(evt) => {
                   setStateWithPropogation(
                     { ...state, name: evt.target.value },
@@ -255,10 +256,12 @@ export default ({
                 <Form.Label>
                   Biomes To Spawn / Not Spawn
                 </Form.Label>
-                <ExtendableBiomeInput onChangeSuper={(wlState) => setStateWithPropogation({
-                  ...state,
-                  ...wlState,
-                })}
+                <ExtendableBiomeInput
+                  prefill={prefill || null}
+                  onChangeSuper={(wlState) => setStateWithPropogation({
+                    ...state,
+                    ...wlState,
+                  })}
                 />
               </Form.Group>
             )}
@@ -271,6 +274,7 @@ export default ({
               <ExtendableInput
                 type={mc114 ? 'text' : 'number'}
                 tooltipText={mc114 ? 'Format: <modid:dimension>' : 'Any Dimension ID (e.g. -1, 1)'}
+                prefill={prefill && prefill.dimBlacklist}
                 onChangeSuper={(dimBlacklist) => setStateWithPropogation(
                   { ...state, dimBlacklist },
                 )}
@@ -285,6 +289,7 @@ export default ({
               <ExtendableInput
                 type="text"
                 tooltipText="Format: <modid:block> or <modid:block:meta>"
+                prefill={prefill && prefill.blockStateMatchers}
                 onChangeSuper={(blockStateMatchers) => setStateWithPropogation(
                   { ...state, blockStateMatchers },
                 )}

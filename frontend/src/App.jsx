@@ -7,6 +7,7 @@ import LoadAuth from './auth/load';
 import NavBar from './components/modules/NavBar';
 import ConfigBrowse from './components/view/ConfigBrowse';
 import ConfigCreate from './components/view/ConfigCreate';
+import ConfigEdit from './components/view/ConfigEdit';
 import ConfigRender from './components/view/ConfigRender';
 import Login from './components/view/Login';
 import Register from './components/view/Register';
@@ -20,8 +21,8 @@ export default () => {
       <Router>
         <NavBar />
         <div style={{ paddingTop: `${3.5}em` }} />
-        <Route exact path="/" component={() => <ConfigCreate editing={false} />} />
-        <Route exact path="/edit" component={() => <ConfigCreate editing />} />
+        <Route exact path="/" component={ConfigCreate} />
+        <Route exact path="/edit" component={ConfigEdit} />
         <Route exact path="/view" component={ConfigRender} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/browse" component={ConfigBrowse} />

@@ -9,4 +9,5 @@ export const GetConfigForEdit = (id) => axios.get(`/api/configs/${id}`)
     store.dispatch({
       type: 'SET_CONFIG_EDITING', id, json: resp.data.json, name: resp.data.name,
     });
+    return resp.data;
   }));

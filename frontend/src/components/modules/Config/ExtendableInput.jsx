@@ -6,10 +6,10 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default ({
-  type, tooltipText, onChangeSuper,
+  type, tooltipText, onChangeSuper, prefill,
 }) => {
-  const [entries, setEntries] = useState([true]);
-  const [state, setState] = useState([null]);
+  const [entries, setEntries] = useState((prefill && Array(prefill.length).fill(true)) || [true]);
+  const [state, setState] = useState(prefill || [null]);
 
   const addEntry = () => {
     const newState = [...state, null];
@@ -46,6 +46,7 @@ export default ({
           <Form.Control
             required
             type={type}
+            value={state[idx]}
             onChange={(evt) => onChange(idx, evt.target.value)}
           />
         </OverlayTrigger>

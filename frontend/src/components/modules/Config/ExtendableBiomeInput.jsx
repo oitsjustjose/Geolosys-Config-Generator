@@ -6,11 +6,13 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default ({
-  onChangeSuper,
+  onChangeSuper, prefill,
 }) => {
-  const [entries, setEntries] = useState([true]);
-  const [biomes, setBiomes] = useState([null]);
-  const [isWhitelist, setWlMode] = useState(false);
+  const [entries, setEntries] = useState(
+    (prefill && Array(prefill.biomes.length).fill(true)) || [true],
+  );
+  const [biomes, setBiomes] = useState((prefill && prefill.biomes) || [null]);
+  const [isWhitelist, setWlMode] = useState((prefill && prefill.isWhitelist) || false);
 
   const addEntry = () => {
     const newBiomes = [...biomes, null];
@@ -58,7 +60,6 @@ export default ({
           overlay={(
             <Tooltip id={`biome-input-${idx}`}>
               {'Format: <modid:biome> OR '}
-
               <a rel="noreferrer noopener" href="https://oitsjustjo.se/u/GelX-uC1s" target="_blank">
                 Biome Type
               </a>
@@ -68,6 +69,7 @@ export default ({
           <Form.Control
             required
             type="text"
+            value={biomes[idx]}
             onChange={(evt) => onChange(idx, evt.target.value)}
           />
         </OverlayTrigger>
@@ -78,6 +80,7 @@ export default ({
               Whitelist?
             </InputGroup.Text>
             <InputGroup.Checkbox
+              checked={isWhitelist}
               onChange={(evt) => onWlChange(evt.target.checked)}
               aria-label="Checkbox for following text input"
             />

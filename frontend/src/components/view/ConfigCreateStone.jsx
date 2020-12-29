@@ -52,6 +52,7 @@ export default ({
 
               <Form.Control
                 required
+                value={state.block}
                 onChange={(evt) => setStateWithPropogation({ ...state, block: evt.target.value })}
                 type="text"
               />
@@ -140,6 +141,7 @@ export default ({
               <ExtendableInput
                 type={mc114 ? 'text' : 'number'}
                 tooltipText={mc114 ? 'Format: <modid:dimension>' : 'Any Dimension ID (e.g. -1, 1)'}
+                prefill={prefill && prefill.dimBlacklist}
                 onChangeSuper={(dimBlacklist) => setStateWithPropogation(
                   { ...state, dimBlacklist },
                 )}

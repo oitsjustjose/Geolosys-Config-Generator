@@ -9,14 +9,12 @@ const cleanJson = (json) => {
   json.ores.forEach((deposit) => {
     const clean = { ...deposit };
 
-    if (clean.oreBlocks) {
-      clean.oreBlocks = clean.oreBlocks.map((x) => [x.ore, x.chance]).flat();
-    }
-    if (clean.sampleBlocks) {
-      clean.sampleBlocks = clean.sampleBlocks.map((x) => [x.ore, x.chance]).flat();
-    }
-    delete clean.depType;
+    clean.oreBlocks = clean.oreBlocks
+      && clean.oreBlocks.map((x) => [x.ore, x.chance]).flat();
+    clean.sampleBlocks = clean.sampleBlocks
+      && clean.sampleBlocks.map((x) => [x.ore, x.chance]).flat();
 
+    delete clean.depType;
     formattedOres.push(clean);
   });
 
