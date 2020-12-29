@@ -11,12 +11,16 @@ const ConfigSchema = new Schema({
         default: "Unnamed"
     },
     json: Object,
+}, {
+    timestamps: true
 })
 
 export type ConfigModel = Document & {
-    _id: string,
-    name: string,
-    json: object,
+    _id: string
+    name: string
+    json: object
+    createdAt: Date
+    updatedAt: Date
 }
 
 export default model<ConfigModel>('configs', ConfigSchema, 'configs')
