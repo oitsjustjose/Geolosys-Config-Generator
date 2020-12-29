@@ -4,19 +4,25 @@ import { CSSTransition } from 'react-transition-group';
 import GetConfig from '../../axios/Config/GetConfig';
 
 const cleanJson = (json) => {
-  const formatted = { ...json.ores };
-  if (formatted.oreBlocks) {
-    formatted.oreBlocks = formatted.oreBlocks.map((x) => [x.ore, x.chance]).flat();
-  }
-  if (formatted.sampleBlocks) {
-    formatted.sampleBlocks = formatted.sampleBlocks.map((x) => [x.ore, x.chance]).flat();
-  }
+  const formattedOres = [];
 
-  delete formatted.depType;
+  json.ores.forEach((deposit) => {
+    const clean = { ...deposit };
+
+    if (clean.oreBlocks) {
+      clean.oreBlocks = clean.oreBlocks.map((x) => [x.ore, x.chance]).flat();
+    }
+    if (clean.sampleBlocks) {
+      clean.sampleBlocks = clean.sampleBlocks.map((x) => [x.ore, x.chance]).flat();
+    }
+    delete clean.depType;
+
+    formattedOres.push(clean);
+  });
 
   return {
-    ores: formatted,
-    stones: json.stones,
+    ores: formattedOres,
+    stones: Array.from(json.stones),
   };
 };
 
