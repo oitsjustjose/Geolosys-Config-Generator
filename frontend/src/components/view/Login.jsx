@@ -27,7 +27,11 @@ const LoginComponent = ({
   const submit = (evt) => {
     evt.preventDefault();
 
-    postLogin(state).catch((ex) => {
+    postLogin(state).then((resp) => {
+      if (resp.status !== 200) {
+        setError(`${resp.data}`);
+      }
+    }).catch((ex) => {
       setError(`${ex.response.data}`);
     });
   };

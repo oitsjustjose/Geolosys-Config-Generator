@@ -9,12 +9,15 @@ export default (data) => {
 
   return axios.post(path, data)
     .then((resp) => {
-      const token = resp.data;
-      localStorage.setItem('auth-token', token);
+      if (resp.status === 200) {
+        const token = resp.data;
+        localStorage.setItem('auth-token', token);
 
-      const user = jwtDecode(token);
-      store.dispatch({ type: 'SET_USER', user: user._doc });
+        const user = jwtDecode(token);
+        store.dispatch({ type: 'SET_USER', user: user._doc });
 
-      setAuthToken(token);
+        setAuthToken(token);
+      }
+      return resp;
     });
 };
