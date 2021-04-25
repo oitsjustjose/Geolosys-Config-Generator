@@ -9,8 +9,6 @@ COPY . .
 
 RUN npm run build
 
-##
-
 FROM node:14-alpine AS server
 
 ENV NODE_ENV=production
