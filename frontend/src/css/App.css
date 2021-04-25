@@ -55,3 +55,22 @@ img.header {
     cursor: pointer !important;
     color: #fff;
 }
+
+.fullpage.warning {
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .75);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fullpage.warning * {
+    max-width: 768px;
+}

@@ -11,6 +11,7 @@ import ConfigEdit from './components/view/ConfigEdit';
 import ConfigRender from './components/view/ConfigRender';
 import Login from './components/view/Login';
 import Register from './components/view/Register';
+import DatapackWarning from './components/modules/DatapackWarning';
 import store from './redux/store';
 
 export default () => {
@@ -21,6 +22,7 @@ export default () => {
       <Router>
         <NavBar />
         <div style={{ paddingTop: `${3.5}em` }} />
+        <DatapackWarning />
         <Route exact path="/" component={ConfigCreate} />
         <Route exact path="/edit" component={ConfigEdit} />
         <Route exact path="/view" component={ConfigRender} />
