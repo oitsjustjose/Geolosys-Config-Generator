@@ -17,8 +17,6 @@ ENV NODE_ENV=production
 
 RUN npm install -g serve
 
-RUN apk add postgresql-client
-
 WORKDIR /app
 COPY package*.json ./
 COPY --from=builder /app/build ./build
