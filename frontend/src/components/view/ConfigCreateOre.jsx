@@ -183,7 +183,7 @@ export default ({
             <Form.Group>
               <Form.Label>
                 Chance (
-                <a rel="noreferrer noopener" target="_blank" href="https://oitsjustjo.se/u/M3NfQxBsZ">Relative To All Chances</a>
+                <a rel="noreferrer noopener" target="_blank" href="https://mods.oitsjustjose.com/img/geolosys/generation.png">Relative To All Chances</a>
                 {' '}
                 )
               </Form.Label>

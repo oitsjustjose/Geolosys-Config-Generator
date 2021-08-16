@@ -60,7 +60,11 @@ export default ({
           overlay={(
             <Tooltip id={`biome-input-${idx}`}>
               {'Format: <modid:biome> OR '}
-              <a rel="noreferrer noopener" href="https://oitsjustjo.se/u/GelX-uC1s" target="_blank">
+              <a
+                rel="noreferrer noopener"
+                href="https://skmedix.github.io/ForgeJavaDocs/javadoc/forge/1.9.4-12.17.0.2051/net/minecraftforge/common/BiomeDictionary.Type.html"
+                target="_blank"
+              >
                 Biome Type
               </a>
             </Tooltip>

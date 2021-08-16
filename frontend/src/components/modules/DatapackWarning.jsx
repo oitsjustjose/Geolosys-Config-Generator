@@ -31,7 +31,7 @@ export default () => {
         <code>/data/geolosys/deposits</code>
         . If you wish to override a built-in Geolosys data pack see the data schema
         {' '}
-        <a href="http://oitsjustjo.se/u/478KLo_dY" target="_blank" rel="noreferrer noopener">
+        <a href="https://mods.oitsjustjose.com/Geolosys/#datapacks" target="_blank" rel="noreferrer noopener">
           here.
         </a>
       </p>
